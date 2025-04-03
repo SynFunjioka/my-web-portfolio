@@ -22,6 +22,14 @@ export const links: LinksFunction = () => [
   },
 ];
 
+export const meta = () => [
+  { charset: "utf-8" },
+  { name: "viewport", content: "width=device-width,initial-scale=1" },
+  { name: "title", content: "Alan Flores - Desarrollador web" },
+  { name: "description", content: "Portafolio de Alan Flores, un desarrollador web especializado en React y Remix, Nest.js y Node.js." },
+  { name: "keywords", content: "Alan Flores, desarrollador web, portafolio, React, Remix, Nest.js, Node.js" },
+];
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
