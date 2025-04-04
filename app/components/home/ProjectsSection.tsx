@@ -44,7 +44,8 @@ export default function ProjectsSection() {
                 </div>
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold text-[#205781] mb-2">
-                    {project.title}
+                    {project.title}{" "}
+                    <span className="text-sm italic text-gray-400">({project.year})</span>
                   </h3>
                   <p className="text-[#205781]/80 mb-4">
                     {project.description}
@@ -60,12 +61,43 @@ export default function ProjectsSection() {
                     ))}
                   </div>
                   <div className="flex space-x-3">
-                    <Button size="small" variant="secondary" outline>
-                      Ver Demo
-                    </Button>
-                    <Button size="small" variant="secondary" outline>
-                      Ver Código
-                    </Button>
+                    {project.production && (
+                      <Button
+                        size="small"
+                        variant="secondary"
+                        outline
+                        onClick={() =>
+                          project.production && window.open(project.production, "_blank")
+                        }
+                      >
+                        Ver en Producción
+                      </Button>
+                    )}
+                    {project.demo && (
+                      <Button
+                        size="small"
+                        variant="secondary"
+                        outline
+                        onClick={() =>
+                          project.demo && window.open(project.demo, "_blank")
+                        }
+                      >
+                        Ver Demo
+                      </Button>
+                    )}
+                    {project.github && (
+                      <Button
+                        size="small"
+                        variant="secondary"
+                        outline
+                        onClick={() =>
+                          project.github &&
+                          window.open(project.github, "_blank")
+                        }
+                      >
+                        Ver Código
+                      </Button>
+                    )}
                   </div>
                 </CardContent>
               </Card>

@@ -62,13 +62,27 @@ export const certificates = [
   }
 ];
 
-export const projects = [
+interface iProject {
+  title      : string;
+  description: string;
+  image      : string | null;
+  tags       : string[];
+  demo       : string | null;
+  production : string | null;
+  github     : string | null;
+  year       : string;
+}
+export const projects: iProject[] = [
   {
     title: "Landing Page para una psicóloga",
     description:
       "Desarrollo de una landing page para una psicóloga, con un diseño atractivo y funcional. Se implementó un formulario de contacto vía email.",
-    image: "https://placehold.co/600x400",
-    tags: ["React", "Node.js", "Remix.js", "AWS - SES"],
+    image: "/imgs/projects/daniela-cruz.png",
+    tags: ["React", "Node.js", "Remix.js", "AWS - SES", "Tailwind CSS"],
+    demo: null,
+    production: "https://daniela-cruz.com/",
+    github: null,
+    year: "2025"
   }
 ];
 
