@@ -6,9 +6,11 @@ import { ISendEmailParams } from "~/utils/mailer.server";
 import Button from "../shared/Button";
 import { FormControl } from "../shared/forms";
 import { Form } from "@remix-run/react";
+import { useConfirmModal } from "~/hooks/useConfirmModal";
 
 export default function ContactForm() {
   const globalAlert = useGlobalAlert();
+  const { ConfirmDialog, confirm } = useConfirmModal();
   const [isSending, setIsSending] = useState(false);
 
   const {
@@ -19,6 +21,13 @@ export default function ContactForm() {
 
   const onSubmit: SubmitHandler<ISendEmailParams> = async (data, event) => {
     event?.preventDefault();
+
+    const result = await confirm({
+      title: "Enviar correo",
+      message: "¿Estás seguro de enviar este mensaje?",
+    });
+
+    if(!result) return;
 
     const formData = new FormData();
 
@@ -64,68 +73,69 @@ export default function ContactForm() {
 
   return (
     <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="md:w-1/2"
+      initial={{ opacity: 0, x: 20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className="md:w-1/2"
+    >
+      <Form
+        method="post"
+        className="space-y-6"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <Form
-          method="post"
-          className="space-y-6"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <FormControl
-              type="text"
-              label="Nombre"
-              placeholder="Tu nombre"
-              register={register("name", {
-                required: "Campo obligatorio",
-              })}
-              error={errors.name}
-              className="w-full"
-            />
-
-            <FormControl
-              type="text"
-              placeholder="Tu correo electrónico"
-              label="Email"
-              register={register("email", {
-                required: "Campo obligatorio",
-              })}
-              error={errors.email}
-            />
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <FormControl
             type="text"
-            placeholder="Asunto"
-            label="Asunto"
-            register={register("subject", {
+            label="Nombre"
+            placeholder="Tu nombre"
+            register={register("name", {
               required: "Campo obligatorio",
             })}
-            error={errors.subject}
+            error={errors.name}
+            className="w-full"
           />
 
           <FormControl
-            type="textarea"
-            placeholder="Escribe tu mensaje aquí..."
-            label="Mensaje"
-            register={register("message", {
+            type="text"
+            placeholder="Tu correo electrónico"
+            label="Email"
+            register={register("email", {
               required: "Campo obligatorio",
             })}
-            error={errors.message}
+            error={errors.email}
           />
+        </div>
+        <FormControl
+          type="text"
+          placeholder="Asunto"
+          label="Asunto"
+          register={register("subject", {
+            required: "Campo obligatorio",
+          })}
+          error={errors.subject}
+        />
 
-          <Button
-            variant="secondary"
-            type="submit"
-            className="w-full"
-            isLoading={isSending}
-          >
-            Enviar Mensaje
-          </Button>
-        </Form>
-      </motion.div>
+        <FormControl
+          type="textarea"
+          placeholder="Escribe tu mensaje aquí..."
+          label="Mensaje"
+          register={register("message", {
+            required: "Campo obligatorio",
+          })}
+          error={errors.message}
+        />
+
+        <Button
+          variant="secondary"
+          type="submit"
+          className="w-full"
+          isLoading={isSending}
+        >
+          Enviar Mensaje
+        </Button>
+        {ConfirmDialog}
+      </Form>
+    </motion.div>
   );
 }

@@ -4,12 +4,13 @@ import { cn } from "~/utils/tailwind.util";
 type Variant =
   | "primary"
   | "secondary"
-  /* | "success"
+  | "tertiary"
+  // | "success"
   | "danger"
-  | "warning"
-  | "info"
-  | "light"
-  | "dark" */
+  // | "warning"
+  // | "info"
+  // | "light"
+  // | "dark"
   | "link";
 
 interface VariantStyles {
@@ -55,33 +56,40 @@ const Button: React.FC<ButtonProps> = ({
       outline:
         "border border-secondary-600 text-secondary-600 hover:bg-secondary-100 focus:ring-secondary-500",
     },
+    tertiary: {
+      filled:
+        "bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-500",
+      outline:
+        "border border-gray-600 text-gray-600 hover:bg-gray-100 focus:ring-gray-500",
+    },
     /* success: {
       filled: "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500",
       outline:
         "border border-green-600 text-green-600 hover:bg-green-50 focus:ring-green-500",
-    },
+    }, */
     danger: {
-      filled: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
+      filled:
+        "bg-destructive-600 text-white hover:bg-destructive-700 focus:ring-destructive-500",
       outline:
-        "border border-red-600 text-red-600 hover:bg-red-50 focus:ring-red-500",
+        "border border-destructive-600 text-destructive-600 hover:bg-destructive-50 focus:ring-destructive-500",
     },
-    warning: {
+    /* warning: {
       filled:
         "bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500",
       outline:
         "border border-yellow-600 text-yellow-600 hover:bg-yellow-50 focus:ring-yellow-500",
-    },
-    info: {
+    }, */
+    /* info: {
       filled: "bg-sky-600 text-white hover:bg-sky-700 focus:ring-sky-500",
       outline:
         "border border-sky-600 text-sky-600 hover:bg-sky-50 focus:ring-sky-500",
-    },
-    light: {
+    }, */
+    /* light: {
       filled: "bg-gray-100 text-gray-800 hover:bg-gray-300 focus:ring-gray-500",
       outline:
         "border border-gray-100 text-gray-800 hover:bg-gray-200 focus:ring-gray-500",
-    },
-    dark: {
+    }, */
+    /* dark: {
       filled: "bg-gray-800 text-white hover:bg-gray-900 focus:ring-gray-500",
       outline:
         "border border-gray-800 text-gray-800 hover:bg-gray-900 hover:text-white focus:ring-gray-500",

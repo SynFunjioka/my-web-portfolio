@@ -58,7 +58,15 @@ html {
     --accent: 160 36% 68%; /* hsl(160 36% 68%) */
     --accent-foreground: 200 59% 31%; /* hsl(160 36% 68%) */
 
-    --destructive: 0 84.2% 60.2%; /* hsl(0 84.2% 60.2%) */
+    --destructive-100: 0 85% 92%; /* hsl(0, 85%, 92%) */
+    --destructive-200: 0 85% 84%; /* hsl(0, 85%, 84%) */
+    --destructive-300: 0 84% 76%; /* hsl(0, 84%, 76%) */
+    --destructive-400: 0 84% 68%; /* hsl(0, 84%, 68%) */
+    --destructive-500: 0 84% 60%; /* hsl(0, 84%, 60%) */
+    --destructive-600: 0 56% 48%; /* hsl(0, 56%, 48%) */
+    --destructive-700: 0 55% 36%; /* hsl(0, 55%, 36%) */
+    --destructive-800: 0 56% 24%; /* hsl(0, 56%, 24%) */
+    --destructive-900: 0 55% 12%; /* hsl(0, 55%, 12%) */
     --destructive-foreground: 0 0% 98%; /* hsl(0 84.2% 60.2%) */
 
     --border: 160 36% 68%; /* hsl(160 36% 68%) */

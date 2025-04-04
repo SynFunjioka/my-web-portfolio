@@ -50,7 +50,16 @@ export default {
           foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
+          DEFAULT: "hsl(var(--destructive-500))",
+          100: "hsl(var(--destructive-100))",
+          200: "hsl(var(--destructive-200))",
+          300: "hsl(var(--destructive-300))",
+          400: "hsl(var(--destructive-400))",
+          500: "hsl(var(--destructive-500))",
+          600: "hsl(var(--destructive-600))",
+          700: "hsl(var(--destructive-700))",
+          800: "hsl(var(--destructive-800))",
+          900: "hsl(var(--destructive-900))",
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
