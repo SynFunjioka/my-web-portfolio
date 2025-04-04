@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { Form } from "@remix-run/react";
+import { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { motion } from "framer-motion";
+import ReCAPTCHA from "react-google-recaptcha";
 import { useGlobalAlert } from "~/context/AlertContext";
 import { ISendEmailParams } from "~/utils/mailer.server";
 import Button from "../shared/Button";
 import { FormControl } from "../shared/forms";
-import { Form } from "@remix-run/react";
 import { useConfirmModal } from "~/hooks/useConfirmModal";
 
 export default function ContactForm() {
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
+
+  const handleCaptchaChange = (token: string | null) => {
+    setIsCaptchaVerified(!!token);
+  };
+
   const globalAlert = useGlobalAlert();
   const { ConfirmDialog, confirm } = useConfirmModal();
   const [isSending, setIsSending] = useState(false);
@@ -21,6 +29,15 @@ export default function ContactForm() {
 
   const onSubmit: SubmitHandler<ISendEmailParams> = async (data, event) => {
     event?.preventDefault();
+
+    if (!isCaptchaVerified) {
+      globalAlert.addAlert(
+        "CAPTCHA no verificado. Por favor, verifica el CAPTCHA.",
+        "danger",
+        3000
+      );
+      return;
+    }
 
     const result = await confirm({
       title: "Enviar correo",
@@ -59,6 +76,7 @@ export default function ContactForm() {
 
       // Reset the form after successful submission
       event?.target.reset();
+      recaptchaRef.current?.reset();
     } catch (error) {
       globalAlert.addAlert(
         "Error al enviar mensaje. Por favor, intenta nuevamente.",
@@ -126,6 +144,11 @@ export default function ContactForm() {
           error={errors.message}
         />
 
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey="6LfBiQorAAAAAA9JYnmNzlIH4Sl3pk2_3wY0zwCM"
+          onChange={handleCaptchaChange}
+        />
         <Button
           variant="secondary"
           type="submit"
