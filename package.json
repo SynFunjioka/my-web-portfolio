@@ -17,12 +17,16 @@
     "clsx": "^2.1.1",
     "isbot": "^4.1.0",
     "motion": "^12.6.3",
+    "nodemailer": "^6.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwind-merge": "^3.1.0"
+    "react-hook-form": "^7.55.0",
+    "tailwind-merge": "^3.1.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.16.4",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",

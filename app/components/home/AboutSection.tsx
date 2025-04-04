@@ -28,11 +28,11 @@ export default function AboutSection() {
             className="md:w-1/2"
           >
             <img
-              src="https://placehold.co/600x600"
+              src="/imgs/full.png"
               alt="Sobre mí"
-              width={500}
-              height={500}
-              className="rounded-lg shadow-lg"
+              width={512}
+              height={512}
+              className="rounded-lg"
             />
           </motion.div>
           <motion.div

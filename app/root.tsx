@@ -5,9 +5,12 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import type { ActionFunctionArgs, LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
+import { AlertProvider } from "./context/AlertContext";
+import { contactSchema } from "./schemas/contact.schema";
+import { ISendEmailParams, sendEmail } from "./utils/mailer.server";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -30,6 +33,39 @@ export const meta = () => [
   { name: "keywords", content: "Alan Flores, desarrollador web, portafolio, React, Remix, Nest.js, Node.js" },
 ];
 
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+
+  const data = {
+    name   : String(formData.get("name")),
+    subject: String(formData.get("subject")),
+    email  : String(formData.get("email")),
+    message: String(formData.get("message")),
+  };
+
+  const validation = contactSchema.safeParse(data);
+  if (!validation.success) {
+    return new Response(JSON.stringify({ errors: validation.error.format() }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  try {
+    await sendEmail(data as ISendEmailParams);
+    return new Response(
+      JSON.stringify({ success: "Correo enviado exitosamente." }),
+      { headers: { "Content-Type": "application/json" } }
+    );
+  } catch (error) {
+    console.error(error);
+    return new Response(
+      JSON.stringify({ message: "Hubo un problema al enviar el correo." }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -49,5 +85,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <AlertProvider>
+      <Outlet />
+    </AlertProvider>
+  );
 }

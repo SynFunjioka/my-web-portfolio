@@ -74,9 +74,9 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
             transition={{ duration: 0.8 }}
             className="md:w-1/2 flex justify-center"
           >
-            <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-secondary-500">
+            <div className="relative w-64 h-64 md:w-[24rem] md:h-[24rem] lg:w-[32rem] lg:h-[32rem] xl:w-[40rem] xl:h-[40rem] rounded-full overflow-hidden border-4 md:border-8 border-secondary-500">
               <img
-                src="https://placehold.co/600x400"
+                src="/imgs/hero.png"
                 alt="Desarrollador Web"
                 className="object-cover w-full h-full"
               />

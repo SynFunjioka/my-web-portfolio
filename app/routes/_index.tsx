@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { certificates, education, email, linkedin, navItems, projects, skills, techStack, workExperience } from "~/data/home";
@@ -16,6 +16,8 @@ import SkillsSection from "~/components/home/SkillsSection";
 import ProjectsSection from "~/components/home/ProjectsSection";
 import ContactSection from "~/components/home/ContactSection";
 import Footer from "~/components/layout/Footer";
+import { contactSchema } from "~/schemas/contact.schema";
+import { ISendEmailParams, sendEmail } from "~/utils/mailer.server";
 
 export const meta: MetaFunction = () => {
   return [

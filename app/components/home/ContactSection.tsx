@@ -2,8 +2,69 @@ import { motion } from "framer-motion";
 import Icon from "../shared/Icon";
 import { email, linkedin } from "~/data/home";
 import Button from "../shared/Button";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ISendEmailParams } from "~/utils/mailer.server";
+import { useGlobalAlert } from "~/context/AlertContext";
+import { FormControl } from "../shared/forms";
+import { Form } from "@remix-run/react";
 
 export default function ContactSection() {
+  const globalAlert = useGlobalAlert();
+  const [isSending, setIsSending] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISendEmailParams>();
+
+  const onSubmit: SubmitHandler<ISendEmailParams> = async (data, event) => {
+    event?.preventDefault();
+
+    const formData = new FormData();
+
+    // Add each field to the FormData
+    (Object.keys(data) as (keyof ISendEmailParams)[]).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+
+    try {
+      setIsSending(true);
+
+      // Send FormData without setting Content-Type because FormData does that automatically
+      const response = await fetch("/", {
+        method: "POST",
+        body: formData, // Use the FormData as the request body
+      });
+
+      if (!response.ok) {
+        globalAlert.addAlert(
+          "Error al enviar mensaje. Por favor, intenta nuevamente.",
+          "danger",
+          3000
+        );
+        console.error(response.statusText);
+        return;
+      }
+
+      globalAlert.addAlert("Mensaje enviado exitosamente.", "success", 3000);
+
+      // Reset the form after successful submission
+      event?.target.reset();
+     
+    } catch (error) {
+      globalAlert.addAlert(
+        "Error al enviar mensaje. Por favor, intenta nuevamente.",
+        "danger",
+        3000
+      );
+      console.error(error);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-20 bg-[#98D2C0]/20">
       <div className="container mx-auto px-4">
@@ -94,57 +155,62 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="md:w-1/2"
           >
-            <form className="space-y-6">
+            <Form
+              method="post"
+              className="space-y-6"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium">
-                    Nombre
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    className="w-full px-4 py-3 rounded-lg border border-[#98D2C0] focus:outline-none focus:ring-2 focus:ring-secondary-500"
-                    placeholder="Tu nombre"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    className="w-full px-4 py-3 rounded-lg border border-[#98D2C0] focus:outline-none focus:ring-2 focus:ring-secondary-500"
-                    placeholder="Tu email"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium">
-                  Asunto
-                </label>
-                <input
-                  id="subject"
+                <FormControl
                   type="text"
-                  className="w-full px-4 py-3 rounded-lg border border-[#98D2C0] focus:outline-none focus:ring-2 focus:ring-secondary-500"
-                  placeholder="Asunto del mensaje"
+                  label="Nombre"
+                  placeholder="Tu nombre"
+                  register={register("name", {
+                    required: "Campo obligatorio",
+                  })}
+                  error={errors.name}
+                  className="w-full"
+                />
+
+                <FormControl
+                  type="text"
+                  placeholder="Tu correo electrónico"
+                  label="Email"
+                  register={register("email", {
+                    required: "Campo obligatorio",
+                  })}
+                  error={errors.email}
                 />
               </div>
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium">
-                  Mensaje
-                </label>
-                <textarea
-                  id="message"
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-[#98D2C0] focus:outline-none focus:ring-2 focus:ring-secondary-500"
-                  placeholder="Tu mensaje"
-                ></textarea>
-              </div>
-              <Button className="w-full bg-secondary-500 hover:bg-[#205781] text-white">
+              <FormControl
+                type="text"
+                placeholder="Asunto"
+                label="Asunto"
+                register={register("subject", {
+                  required: "Campo obligatorio",
+                })}
+                error={errors.subject}
+              />
+
+              <FormControl
+                type="textarea"
+                placeholder="Escribe tu mensaje aquí..."
+                label="Mensaje"
+                register={register("message", {
+                  required: "Campo obligatorio",
+                })}
+                error={errors.message}
+              />
+
+              <Button
+                variant="secondary"
+                type="submit"
+                className="w-full"
+                isLoading={isSending}
+              >
                 Enviar Mensaje
               </Button>
-            </form>
+            </Form>
           </motion.div>
         </div>
       </div>
