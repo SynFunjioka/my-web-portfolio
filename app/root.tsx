@@ -11,6 +11,7 @@ import "./tailwind.css";
 import { AlertProvider } from "./context/AlertContext";
 import { contactSchema } from "./schemas/contact.schema";
 import { ISendEmailParams, sendEmail } from "./utils/mailer.server";
+import { verifyCaptcha } from "./utils/captchaVerifier.server";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -36,22 +37,35 @@ export const meta = () => [
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
 
-  const data = {
-    name   : String(formData.get("name")),
-    subject: String(formData.get("subject")),
-    email  : String(formData.get("email")),
-    message: String(formData.get("message")),
-  };
-
-  const validation = contactSchema.safeParse(data);
-  if (!validation.success) {
-    return new Response(JSON.stringify({ errors: validation.error.format() }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+  const token = String(formData.get("token"));
+  if (!token) {
+    return new Response(
+      JSON.stringify({ message: "Token no proporcionado." }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
+    );
   }
   
   try {
+    await verifyCaptcha(token);
+
+    const data = {
+      name: String(formData.get("name")),
+      subject: String(formData.get("subject")),
+      email: String(formData.get("email")),
+      message: String(formData.get("message")),
+    };
+
+    const validation = contactSchema.safeParse(data);
+    if (!validation.success) {
+      return new Response(
+        JSON.stringify({ errors: validation.error.format() }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
     await sendEmail(data as ISendEmailParams);
     return new Response(
       JSON.stringify({ success: "Correo enviado exitosamente." }),

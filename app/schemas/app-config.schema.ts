@@ -10,6 +10,10 @@ export const APP_CONFIG_SCHEMA = z.object({
     user: z.string().min(1, "SMTP_USER no puede estar vacío"),
     pass: z.string().min(1, "SMTP_PASS no puede estar vacío"),
   }),
+  recaptcha: z.object({
+    site_key: z.string().min(1, "RECAPTCHA_SITE_KEY no puede estar vacío"),
+    secret_key: z.string().min(1, "RECAPTCHA_SECRET_KEY no puede estar vacío"),
+  }),
 });
 
 // Extraemos el tipo para poder usarlo en toda la aplicación

@@ -53,6 +53,12 @@ export default function ContactForm() {
       formData.append(key, data[key]);
     });
 
+    // Append the token to the FormData
+    const token = recaptchaRef.current?.getValue();
+    if (token) {
+      formData.append("token", token);
+    }
+
     try {
       setIsSending(true);
 
@@ -148,6 +154,7 @@ export default function ContactForm() {
           ref={recaptchaRef}
           sitekey="6LfBiQorAAAAAA9JYnmNzlIH4Sl3pk2_3wY0zwCM"
           onChange={handleCaptchaChange}
+          onExpired={() => setIsCaptchaVerified(false)}
         />
         <Button
           variant="secondary"
