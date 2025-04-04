@@ -65,7 +65,7 @@ export default function ExperienceSection({
                   <p className="text-[#205781]/80 mb-4">{work.description}</p>
                   <ul className="space-y-2 text-[#205781]/80">
                     {work.tasks.map((resp, index) => (
-                      <li className="flex items-start">
+                      <li key={index} className="flex items-start">
                         <span className="text-secondary-500 mr-2">•</span>
                         <span>{resp}</span>
                       </li>

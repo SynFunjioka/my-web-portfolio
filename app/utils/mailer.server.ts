@@ -23,8 +23,14 @@ export async function sendEmail({ name, email, subject, message }: ISendEmailPar
   await transporter.sendMail({
     from   : `"${name}" <${email}>`,
     to     : APP_CONFIG.recipient_email,
-    subject: "Solicitud de Cita - María Daniela de la Cruz",
+    subject: `Mensaje desde Portafolio web - ${subject}`,
     text   : message,
-    html   : `<p>Nombre: ${name}</p><p>Email: ${email}</p><p>Mensaje: ${message}</p>`,
+    html   : 
+    `
+    <p>Nombre: ${name}</p>
+    <br/>
+    <p>Email: ${email}</p>
+    <br/>
+    <p>Mensaje: ${message}</p>`,
   });
 }

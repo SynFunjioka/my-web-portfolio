@@ -50,7 +50,7 @@ export async function action({ request }: ActionFunctionArgs) {
       headers: { "Content-Type": "application/json" },
     });
   }
-
+  
   try {
     await sendEmail(data as ISendEmailParams);
     return new Response(
