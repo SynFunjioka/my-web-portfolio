@@ -63,7 +63,7 @@ export default function ContactForm() {
       setIsSending(true);
 
       // Send FormData without setting Content-Type because FormData does that automatically
-      const response = await fetch("/", {
+      const response = await fetch("/sendEmail", {
         method: "POST",
         body: formData, // Use the FormData as the request body
       });
@@ -115,6 +115,14 @@ export default function ContactForm() {
             placeholder="Tu nombre"
             register={register("name", {
               required: "Campo obligatorio",
+              minLength: {
+                value: 2,
+                message: "El nombre debe tener al menos 2 caracteres",
+              },
+              maxLength: {
+                value: 50,
+                message: "El nombre no puede exceder los 50 caracteres",
+              },
             })}
             error={errors.name}
             className="w-full"
@@ -136,6 +144,14 @@ export default function ContactForm() {
           label="Asunto"
           register={register("subject", {
             required: "Campo obligatorio",
+            minLength: {
+              value: 2,
+              message: "El asunto debe tener al menos 2 caracteres",
+            },
+            maxLength: {
+              value: 100,
+              message: "El asunto no puede exceder los 100 caracteres",
+            },
           })}
           error={errors.subject}
         />
@@ -146,6 +162,14 @@ export default function ContactForm() {
           label="Mensaje"
           register={register("message", {
             required: "Campo obligatorio",
+            minLength: {
+              value: 10,
+              message: "El mensaje debe tener al menos 10 caracteres",
+            },
+            maxLength: {
+              value: 500,
+              message: "El mensaje no puede exceder los 500 caracteres",
+            },
           })}
           error={errors.message}
         />

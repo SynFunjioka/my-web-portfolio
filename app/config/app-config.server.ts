@@ -10,7 +10,7 @@ export function loadAppConfig(): TAppConfig {
       pass: process.env.SMTP_PASS ?? "",
       secure: process.env.SMTP_SECURE === "true"
     },
-    recaptcha:{
+    recaptcha: {
       site_key: process.env.GOOGLE_CAPTCHA_SITE_KEY,
       secret_key: process.env.GOOGLE_CAPTCHA_SECRET_KEY,
     },

@@ -1,12 +1,5 @@
-import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { certificates, education, email, linkedin, navItems, projects, skills, techStack, workExperience } from "~/data/home";
-import Button from "~/components/shared/Button";
-import { Link } from "@remix-run/react";
-import Icon from "~/components/shared/Icon";
-import { Card, CardContent } from "~/components/CustomCard";
-import { cn } from "~/utils/tailwind.util";
 import Header from "~/components/layout/Header";
 import HeroSection from "~/components/home/HeroSection";
 import AboutSection from "~/components/home/AboutSection";
@@ -16,14 +9,18 @@ import SkillsSection from "~/components/home/SkillsSection";
 import ProjectsSection from "~/components/home/ProjectsSection";
 import ContactSection from "~/components/home/ContactSection";
 import Footer from "~/components/layout/Footer";
-import { contactSchema } from "~/schemas/contact.schema";
-import { ISendEmailParams, sendEmail } from "~/utils/mailer.server";
+import { APP_CONFIG } from "~/config/app-config.server";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "New Remix App" },
     { name: "description", content: "Welcome to Remix!" },
   ];
+};
+
+export const loader = async () => {
+  const config = APP_CONFIG
+  return Response.json({});
 };
 
 export default function Index() {

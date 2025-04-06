@@ -1,4 +1,4 @@
-import { APP_CONFIG } from "~/config/app.config";
+import { APP_CONFIG } from "~/config/app-config.server";
 
 export async function verifyCaptcha(token: string): Promise<void | never> {
   const secretKey = APP_CONFIG.recaptcha.secret_key;
