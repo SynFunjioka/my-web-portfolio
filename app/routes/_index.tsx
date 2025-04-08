@@ -14,9 +14,17 @@ import { useLoaderData } from "@remix-run/react";
 import ScrollToTopButton from "~/components/shared/ScrollToTopButton";
 
 export const meta: MetaFunction = () => {
+  const metaContent = "Soy Alan Flores, un desarrollador web apasionado por la tecnología y el diseño. Aquí encontrarás mi portafolio, donde muestro mis proyectos y habilidades.";
+
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    {
+      title: "Alan Flores - Desarrollador Web | Portafolio",
+      content: metaContent,
+    },
+    {
+      property: "og:description",
+      content: metaContent,
+    },
   ];
 };
 
