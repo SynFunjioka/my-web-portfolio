@@ -5,9 +5,9 @@ export const navItems = [
   { id: "home", label: "Inicio" },
   { id: "about", label: "Sobre mí" },
   { id: "education", label: "Educación" },
-  { id: "experience", label: "Experiencia" },
-  { id: "skills", label: "Habilidades" },
   { id: "projects", label: "Proyectos" },
+  { id: "skills", label: "Habilidades" },
+  { id: "experience", label: "Experiencia" },
   { id: "contact", label: "Contacto" },
 ];
 

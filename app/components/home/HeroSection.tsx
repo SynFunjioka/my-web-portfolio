@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Button from "../shared/Button";
 import Icon from "../shared/Icon";
 import { email, linkedin } from "~/data/home";
+import Title from "./Title";
 
 interface HeroSectionProps {
   scrollToSection: (sectionId: string) => void;
@@ -22,11 +23,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
             transition={{ duration: 0.8 }}
             className="md:w-1/2 space-y-6"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Hola, soy <span className="text-secondary-500">Alan!</span>
-              <br />
-              <span className="text-[#205781]">Desarrollador Web</span>
-            </h1>
+            <Title />
             <p className="text-lg text-[#205781]/80 max-w-lg">
               Desarrollo soluciones web modernas y atractivas con un enfoque en
               la experiencia del usuario y el rendimiento.

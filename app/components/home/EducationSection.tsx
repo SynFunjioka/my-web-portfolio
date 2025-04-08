@@ -4,7 +4,7 @@ import { certificates, education } from "~/data/home";
 
 export default function EducationSection() {
   return (
-    <section id="education" className="py-20 bg-[#F6F8D5]/50">
+    <section id="education" className="py-20 bg-light-goldenrod-yellow">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -26,13 +26,13 @@ export default function EducationSection() {
         <div className="max-w-4xl mx-auto">
           {/* Timeline */}
           <div className="relative">
-            {/* Vertical Line */}
+            {/* Línea vertical central */}
             <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 h-full w-1 bg-secondary-500/30"></div>
 
-            {/* Education Items */}
+            {/* Items de la educación */}
             <div className="space-y-12">
               {education.map((edu, index) => {
-                const isEven = index % 2 === 0; // índice par: layout A; impar: layout B
+                const isEven = index % 2 === 0;
                 return (
                   <motion.div
                     key={index}
@@ -40,54 +40,12 @@ export default function EducationSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: isEven ? 0 : 0.1 }}
                     viewport={{ once: true }}
-                    className="relative flex flex-col md:flex-row items-center md:justify-between"
+                    className="relative flex flex-col md:flex-row items-center"
                   >
-                    {isEven ? (
-                      <>
-                        {/* Contenido en el lado izquierdo */}
-                        <div className="flex items-center order-1 md:order-1 md:w-1/2 md:justify-end md:pr-8 pb-4 md:pb-0">
-                          <div className="z-10 flex md:justify-end">
-                            <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-secondary-500 max-w-md">
-                              <span className="text-sm text-secondary-500 font-semibold">
-                                {edu.period}
-                              </span>
-                              <h3 className="text-xl font-bold text-[#205781] mt-1">
-                                {edu.title}
-                              </h3>
-                              <p className="text-[#205781]/80 mt-1">
-                                {edu.institution}
-                              </p>
-                              <p className="text-sm text-[#205781]/70 mt-2">
-                                {edu.description}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Línea central */}
-                        <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 flex items-center justify-center">
-                          <div className="h-8 w-8 rounded-full bg-secondary-500 shadow z-10 flex items-center justify-center">
-                            <div className="h-3 w-3 rounded-full bg-white"></div>
-                          </div>
-                        </div>
-
-                        {/* Espacio vacío para el lado derecho */}
-                        <div className="md:w-1/2 md:pl-8"></div>
-                      </>
-                    ) : (
-                      <>
-                        {/* Espacio vacío para el lado izquierdo */}
-                        <div className="md:w-1/2 md:pr-8"></div>
-
-                        {/* Línea central */}
-                        <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 flex items-center justify-center">
-                          <div className="h-8 w-8 rounded-full bg-secondary-500 shadow z-10 flex items-center justify-center">
-                            <div className="h-3 w-3 rounded-full bg-white"></div>
-                          </div>
-                        </div>
-
-                        {/* Contenido en el lado derecho */}
-                        <div className="flex items-center order-1 md:w-1/2 md:justify-start md:pl-8 pb-4 md:pb-0">
+                    {/* Contenedor izquierdo */}
+                    <div className="md:w-1/2 flex items-center">
+                      {isEven && (
+                        <div className="flex justify-end md:pr-8 pb-4 md:pb-0 w-full">
                           <div className="z-10">
                             <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-secondary-500 max-w-md">
                               <span className="text-sm text-secondary-500 font-semibold">
@@ -105,8 +63,39 @@ export default function EducationSection() {
                             </div>
                           </div>
                         </div>
-                      </>
-                    )}
+                      )}
+                    </div>
+
+                    {/* Punto central */}
+                    <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2">
+                      <div className="h-8 w-8 rounded-full bg-secondary-500 shadow z-10 flex items-center justify-center">
+                        <div className="h-3 w-3 rounded-full bg-white"></div>
+                      </div>
+                    </div>
+
+                    {/* Contenedor derecho */}
+                    <div className="md:w-1/2 flex items-center">
+                      {!isEven && (
+                        <div className="flex justify-start md:pl-8 pb-4 md:pb-0 w-full">
+                          <div className="z-10">
+                            <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-secondary-500 max-w-md">
+                              <span className="text-sm text-secondary-500 font-semibold">
+                                {edu.period}
+                              </span>
+                              <h3 className="text-xl font-bold text-[#205781] mt-1">
+                                {edu.title}
+                              </h3>
+                              <p className="text-[#205781]/80 mt-1">
+                                {edu.institution}
+                              </p>
+                              <p className="text-sm text-[#205781]/70 mt-2">
+                                {edu.description}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </motion.div>
                 );
               })}

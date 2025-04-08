@@ -36,7 +36,7 @@ export default function ExperienceSection({
               className="bg-white rounded-lg shadow-lg overflow-hidden border border-[#98D2C0]/30"
             >
               <div className="md:flex">
-                <div className="md:w-1/3 bg-[#F6F8D5] p-6 flex flex-col justify-between">
+                <div className="md:w-1/3 bg-light-goldenrod-yellow-500 p-6 flex flex-col justify-between">
                   <div>
                     <h3 className="text-xl font-bold text-[#205781]">
                       {work.position}

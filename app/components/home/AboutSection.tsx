@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Button from "../shared/Button";
 import { email } from "~/data/home";
 
-export default function AboutSection() {
+export default function AboutSection({ cvPath}: { cvPath: string }) {
   return (
     <section id="about" className="py-20 bg-white">
       <div className="container mx-auto px-4">
@@ -79,8 +79,9 @@ export default function AboutSection() {
               </div>
             </div>
             <Button
-              onClick={() => window.open("/cv.pdf", "_blank")}
-              className="bg-secondary-500 hover:bg-[#205781] text-white mt-4"
+              variant="secondary"
+              onClick={() => window.open(cvPath, "_blank")}
+              className="mt-4"
             >
               Descargar CV
             </Button>

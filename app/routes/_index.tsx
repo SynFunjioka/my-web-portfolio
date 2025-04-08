@@ -10,6 +10,8 @@ import ProjectsSection from "~/components/home/ProjectsSection";
 import ContactSection from "~/components/home/ContactSection";
 import Footer from "~/components/layout/Footer";
 import { APP_CONFIG } from "~/config/app-config.server";
+import { useLoaderData } from "@remix-run/react";
+import ScrollToTopButton from "~/components/shared/ScrollToTopButton";
 
 export const meta: MetaFunction = () => {
   return [
@@ -19,17 +21,22 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async () => {
-  const config = APP_CONFIG
-  return Response.json({});
+  const cvPath = process.env.PUBLIC_CV_FILE_PATH__SPANISH;
+
+  return Response.json({
+    cvPath
+  });
 };
 
 export default function Index() {
+  const { cvPath } = useLoaderData<typeof loader>();
+
   const [activeSection, setActiveSection] = useState("home")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "about", "education", "experience", "skills", "projects", "contact"]
+      const sections = ["home", "about", "education", "projects", "skills", "experience", "contact"]
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -66,19 +73,32 @@ export default function Index() {
     }
   }
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setActiveSection("home");
+  };
+
   return (
-    <div className="min-h-screen bg-[#F6F8D5] text-[#205781]">
+    <div className="min-h-screen bg-light-goldenrod-yellow text-primary-500">
       <Header activeSection={activeSection} scrollToSection={scrollToSection} />
 
       <HeroSection scrollToSection={scrollToSection} />
-      <AboutSection />
+      <AboutSection cvPath={cvPath} />
       <EducationSection />
-      <ExperienceSection scrollToSection={scrollToSection} />
-      <SkillsSection />
       <ProjectsSection />
+      <SkillsSection />
+      <ExperienceSection scrollToSection={scrollToSection} />
       <ContactSection />
 
       <Footer />
+
+      <ScrollToTopButton
+        isVisible={activeSection !== "home"}
+        onClick={scrollToTop}
+      />
     </div>
   );
 }
