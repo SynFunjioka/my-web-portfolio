@@ -4,7 +4,13 @@ import { email, linkedin } from "~/data/home";
 import ContactForm from "./ContactForm";
 import { ClientOnly } from "~/wrappers/ClientOnly";
 
-export default function ContactSection() {
+export interface emailJSProps {
+  public_key  : string;
+  service_id ?: string;
+  template_id : string;
+}
+
+export default function ContactSection({ emailjs }: { emailjs: emailJSProps }) {
   return (
     <section id="contact" className="py-20 bg-[#98D2C0]/20">
       <div className="container mx-auto px-4">
@@ -89,7 +95,7 @@ export default function ContactSection() {
           </motion.div>
 
           <ClientOnly>
-            <ContactForm />
+            <ContactForm emailjs={emailjs} />
           </ClientOnly>
         </div>
       </div>

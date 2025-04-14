@@ -29,15 +29,21 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async () => {
-  const cvPath = process.env.PUBLIC_CV_FILE_PATH__SPANISH;
+  const cvPath  = process.env.PUBLIC_CV_FILE_PATH__SPANISH;
+  const emailjs = {
+    public_key : process.env.PUBLIC_EMAILJS_PUBLIC_KEY,
+    template_id: process.env.PUBLIC_EMAILJS_TEMPLATE_ID,
+    service_id : process.env.PUBLIC_EMAILJS_SERVICE_ID,
+  }
 
   return Response.json({
-    cvPath
+    cvPath,
+    emailjs,
   });
 };
 
 export default function Index() {
-  const { cvPath } = useLoaderData<typeof loader>();
+  const { cvPath, emailjs } = useLoaderData<typeof loader>();
 
   const [activeSection, setActiveSection] = useState("home")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -99,7 +105,7 @@ export default function Index() {
       <ProjectsSection />
       <SkillsSection />
       <ExperienceSection scrollToSection={scrollToSection} />
-      <ContactSection />
+      <ContactSection emailjs={emailjs} />
 
       <Footer />
 

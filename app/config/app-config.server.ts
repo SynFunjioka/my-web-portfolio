@@ -14,6 +14,12 @@ export function loadAppConfig(): TAppConfig {
       site_key: process.env.GOOGLE_CAPTCHA_SITE_KEY,
       secret_key: process.env.GOOGLE_CAPTCHA_SECRET_KEY,
     },
+    emailjs: {
+      public_key : process.env.PUBLIC_EMAILJS_PUBLIC_KEY,
+      private_key: process.env.EMAILJS_PRIVATE_KEY,
+      template_id: process.env.PUBLIC_EMAILJS_TEMPLATE_ID,
+      service_id : process.env.PUBLIC_EMAILJS_SERVICE_ID,
+    }
   };
 
   // Validamos con Zod y, si algo está mal, Zod lanzará una excepción

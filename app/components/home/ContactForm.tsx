@@ -8,8 +8,10 @@ import { ISendEmailParams } from "~/utils/mailer.server";
 import Button from "../shared/Button";
 import { FormControl } from "../shared/forms";
 import { useConfirmModal } from "~/hooks/useConfirmModal";
+import { emailJSProps } from "./ContactSection";
+import emailjs, { EmailJSResponseStatus } from "@emailjs/browser";
 
-export default function ContactForm() {
+export default function ContactForm({ emailjs: emailjsData }: { emailjs: emailJSProps }) {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
@@ -38,58 +40,50 @@ export default function ContactForm() {
       );
       return;
     }
+    
 
     const result = await confirm({
       title: "Enviar correo",
       message: "¿Estás seguro de enviar este mensaje?",
     });
 
-    if(!result) return;
+    if (!result) return;
 
-    const formData = new FormData();
-
-    // Add each field to the FormData
-    (Object.keys(data) as (keyof ISendEmailParams)[]).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-
-    // Append the token to the FormData
     const token = recaptchaRef.current?.getValue();
-    if (token) {
-      formData.append("token", token);
-    }
 
     try {
       setIsSending(true);
 
-      // Send FormData without setting Content-Type because FormData does that automatically
-      const response = await fetch("/sendEmail", {
-        method: "POST",
-        body: formData, // Use the FormData as the request body
-      });
-
-      if (!response.ok) {
-        globalAlert.addAlert(
-          "Error al enviar mensaje. Por favor, intenta nuevamente.",
-          "danger",
-          3000
-        );
-        console.error(response.statusText);
-        return;
-      }
+      debugger;
+      await emailjs.send(
+        emailjsData.service_id || "default_service",
+        emailjsData.template_id,
+        {
+          name: data.name,
+          subject: data.subject,
+          email: data.email,
+          message: data.message,
+          "g-recaptcha-response": token,
+        },
+        {
+          publicKey: emailjsData.public_key,
+        }
+      );
+      console.log("SUCCESS!");
 
       globalAlert.addAlert("Mensaje enviado exitosamente.", "success", 3000);
 
-      // Reset the form after successful submission
       event?.target.reset();
-      recaptchaRef.current?.reset();
-    } catch (error) {
-      globalAlert.addAlert(
-        "Error al enviar mensaje. Por favor, intenta nuevamente.",
-        "danger",
-        3000
-      );
-      console.error(error);
+    } catch (err) {
+      let errorMessage = "Hubo un problema al enviar el correo. ";
+      if (err instanceof EmailJSResponseStatus) {
+        console.log("EMAILJS FAILED...", err);
+        errorMessage += err.text;
+        return;
+      }
+      globalAlert.addAlert("Mensaje enviado exitosamente.", "danger", 3000);
+
+      console.log("ERROR", err);
     } finally {
       setIsSending(false);
     }
