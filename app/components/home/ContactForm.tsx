@@ -54,7 +54,6 @@ export default function ContactForm({ emailjs: emailjsData }: { emailjs: emailJS
     try {
       setIsSending(true);
 
-      debugger;
       await emailjs.send(
         emailjsData.service_id || "default_service",
         emailjsData.template_id,
@@ -79,9 +78,8 @@ export default function ContactForm({ emailjs: emailjsData }: { emailjs: emailJS
       if (err instanceof EmailJSResponseStatus) {
         console.log("EMAILJS FAILED...", err);
         errorMessage += err.text;
-        return;
       }
-      globalAlert.addAlert("Mensaje enviado exitosamente.", "danger", 3000);
+      globalAlert.addAlert(errorMessage, "danger", 3000);
 
       console.log("ERROR", err);
     } finally {
